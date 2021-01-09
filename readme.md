@@ -1,3 +1,6 @@
+# Setup
+1. Clone repository
+1. `docker-compose up`
 # Simple car Api
 
 POST /cars
