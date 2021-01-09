@@ -29,23 +29,20 @@ class CarsViewSet(mixins.ListModelMixin, mixins.CreateModelMixin,
         return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
-        # car_makes = requests.get('https://vpic.nhtsa.dot.gov/api/vehicles/GetAllMakes?format=json')
-        # makes_dict = json.loads(car_makes.content)
         make = request.data['make']
+        model = request.data['model']
 
-        with open('makes.json') as makes:
-            makes_dict = json.load(makes)
+        car_makes = requests.get(
+            'https://vpic.nhtsa.dot.gov/api/vehicles/GetAllMakes?format=json')
+        makes_dict = json.loads(car_makes.content)
         makes = pd.DataFrame(makes_dict['Results'])
-        print(makes.head())
         if makes['Make_Name'].isin({'Make_name': make}).any():
             return Response(status=400, data={'msg': 'Invalid make', 'data': [make, makes['Make_Name'].head(10)]})
 
-        # car_models = requests.get(f'https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMake/{make}?format=json')
-        # car_models_dict = json.loads(car_makes.content)
-        with open('models.json') as models:
-            car_models_dict = json.load(models)
+        car_models = requests.get(
+            f'https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMake/{make}?format=json')
+        car_models_dict = json.loads(car_models.content)
         models_df = pd.DataFrame(car_models_dict['Results'])
-        model = request.data['model']
         if models_df['Model_Name'].isin({'Model_Name': model}).any():
             return Response(status=400, data='Wrong model')
 
@@ -65,7 +62,6 @@ class RatesViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         cars = Car.objects.filter(
             make__contains=make, model__contains=model).first()
         request.data['car'] = cars.id
-        print(request.data)
 
         return super().create(request, *args, **kwargs)
 
