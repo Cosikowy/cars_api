@@ -17,4 +17,4 @@ router.register('popular', rest_views.PopularViewSet, basename='popular')
 
 urlpatterns = [
     path("", include(router.urls)),
-    ]
+]
