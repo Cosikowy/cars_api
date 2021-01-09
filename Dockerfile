@@ -12,4 +12,4 @@ WORKDIR /app
 
 EXPOSE 8000
 
-ENTRYPOINT python manage.py migrate && python manage.py runserver
+ENTRYPOINT python manage.py migrate && python manage.py runserver 0:8000

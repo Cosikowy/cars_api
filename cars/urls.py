@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from . import rest_views
 
+app_name = 'cars'
 
 
 # https://vpic.nhtsa.dot.gov/api/  api
@@ -10,9 +11,9 @@ from . import rest_views
 # /vehicles/GetModelsForMake/honda?format=json - models for makes
 
 router = DefaultRouter()
-# router.register('cars', rest_views.CarViewSet, basename='cars')
-# router.register('rates', rest_views.RatesViewSet, basename='rates')
-# router.register('popular', rest_views.PopularViewSet, basename='popular')
+router.register('cars', rest_views.CarsViewSet, basename='cars')
+router.register('rates', rest_views.RatesViewSet, basename='rates')
+router.register('popular', rest_views.PopularViewSet, basename='popular')
 
 urlpatterns = [
     path("", include(router.urls)),
