@@ -1,16 +1,13 @@
 import json
 
 from rest_framework import mixins, viewsets
-from rest_framework.views import APIView
-from django.utils.decorators import method_decorator
-from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
 
 import pandas as pd
 import requests
 
 from .models import Car, Rate
-from .serializers import CarsCreateSerializer, CarsListSerializer, RateSerializer, PupularSerializer
+from .serializers import CarsCreateSerializer, CarsListSerializer, RateSerializer
 
 
 class CarsViewSet(mixins.ListModelMixin, mixins.CreateModelMixin,
@@ -23,10 +20,6 @@ class CarsViewSet(mixins.ListModelMixin, mixins.CreateModelMixin,
             return CarsListSerializer
         if self.action == 'create':
             return CarsCreateSerializer
-
-    def list(self, request, *args, **kwargs):
-
-        return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         make = request.data['make']
@@ -59,13 +52,13 @@ class RatesViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
         make = request.data['make']
         model = request.data['model']
-        cars = Car.objects.filter(
-            make__contains=make, model__contains=model).first()
+        cars = Car.objects.get(
+            make__contains=make, model__contains=model)
         request.data['car'] = cars.id
 
         return super().create(request, *args, **kwargs)
 
 
 class PopularViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
-    queryset = Car.objects.all()[0:4]
-    serializer_class = PupularSerializer
+    queryset = Car.objects.all()[:4]
+    serializer_class = CarsListSerializer

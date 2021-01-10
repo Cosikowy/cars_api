@@ -6,6 +6,11 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    environment:
+      DB_NAME: cars_db
+      DB_USER: root
+      DB_PASS: root
+      DB_HOST: db
     volumes:
       - ./:/app
     depends_on:

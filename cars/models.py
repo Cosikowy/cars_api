@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models.signals import post_save
-from django.db.models import Avg
+from django.db.models import Avg, Count
 
 
 class Car(models.Model):
@@ -24,9 +24,11 @@ class Rate(models.Model):
 def update_rate(sender, instance, created, **kwargs):
     if created:
         car_id = instance.car.id
-        average = Rate.objects.filter(
-            car_id=car_id).aggregate(Avg('rate'))['rate__avg']
-        rate_count = Rate.objects.filter(car_id=car_id).count()
+        car_obj = Rate.objects.filter(
+            car_id=car_id).aggregate(avg=Avg('rate'),count = Count('*'))
+        
+        average = car_obj['avg']
+        rate_count = car_obj['count']
         Car.objects.filter(pk=car_id).update(
             avg_rate=round(average, 4), rate_count=rate_count)
 

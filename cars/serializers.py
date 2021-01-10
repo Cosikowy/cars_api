@@ -24,9 +24,3 @@ class RateSerializer(serializers.ModelSerializer):
             'car': {'read_only': False, },
         }
         fields = ('__all__')
-
-
-class PupularSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Car
-        fields = ('__all__')
