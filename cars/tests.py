@@ -12,7 +12,7 @@ class CarsTestCase(APITestCase):
 
 
     def setUp(self):
-        Car.objects.create_(make='HONDA', model='Civic')
+        Car.objects.create(make='HONDA', model='Civic')
     
     
     def test_create_car(self):
