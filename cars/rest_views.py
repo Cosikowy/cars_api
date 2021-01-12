@@ -2,6 +2,7 @@ import json
 
 from rest_framework import mixins, viewsets
 from rest_framework.response import Response
+from django.http.request import QueryDict
 
 import pandas as pd
 import requests
@@ -52,8 +53,12 @@ class RatesViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         model = request.data['model']
         cars = Car.objects.get(
             make__contains=make, model__contains=model)
-        request.data['car'] = cars.id
-
+        if isinstance(request.data, QueryDict):
+            request.data._mutable = True
+            request.data['car'] = cars.id
+            request.data._mutable = False
+        else:
+            request.data['car'] = cars.id
         return super().create(request, *args, **kwargs)
 
 
