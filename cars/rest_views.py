@@ -47,8 +47,6 @@ class RatesViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer_class = RateSerializer
 
     def create(self, request, *args, **kwargs):
-        if not 1 <= request.data['rate'] <= 5:
-            return Response(status=400, data={'msg': 'Rate must be beetwen 1 and 5'})
 
         make = request.data['make']
         model = request.data['model']
