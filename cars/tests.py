@@ -1,11 +1,6 @@
-import json
-
-from cars.models import Car
-from cars.serializers import CarsListSerializer
-from django.contrib.auth.models import User
-from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
+# TODO: MOCK TEST FOR EXTERNAL API
 
 
 class CarsTestCase(APITestCase):

@@ -9,10 +9,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'lguqg#u69nsuvc$b3xwt16zpd4-^p^hg#(3bz%!xo*yl206&a#'
+SECRET_KEY = os.getenv('SECRET_KEY', 'very_secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', True)
 
 ALLOWED_HOSTS = []
 
@@ -26,10 +26,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'rest_framework',
     'drf_yasg',
-    
+
     'cars',
 ]
 
@@ -71,10 +71,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('DB_NAME', 'cars_db'),
-        'USER': os.getenv('DB_USER','root'),
-        'PASSWORD': os.getenv('DB_PASS','root'),
-        'HOST':  os.getenv('DB_HOST','localhost'),
-        'PORT': os.getenv('DB_PORT','5432'),
+        'USER': os.getenv('DB_USER', 'root'),
+        'PASSWORD': os.getenv('DB_PASS', 'root'),
+        'HOST':  os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     },
 }
 

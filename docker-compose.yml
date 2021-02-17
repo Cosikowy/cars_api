@@ -7,6 +7,8 @@ services:
       context: ./
       dockerfile: Dockerfile
     environment:
+      SECRET_KEY: lguqg#u69nsuvc$b3xwt16zpd4-^p^hg#(3bz%!xo*yl206&a#
+      DEBUG: true
       DB_NAME: cars_db
       DB_USER: root
       DB_PASS: root
